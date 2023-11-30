@@ -7,4 +7,4 @@ const itemSchema = new mongoose.Schema({
   desc: String,
 });
 
-module.exports = mongoose.model("Item", itemSchema);
+module.exports = mongoose.models.Item || mongoose.model("Item", itemSchema);
