@@ -20,9 +20,9 @@ const userSchema = new mongoose1.Schema({
 
 // static signup method
 userSchema.statics.register = async function (
-  email: string,
-  password: string,
-  admin: boolean
+  email: String,
+  password: String,
+  admin: Boolean
 ) {
   //validation
   if (!email || !password) {
@@ -50,7 +50,7 @@ userSchema.statics.register = async function (
 };
 
 //static login method
-userSchema.statics.login = async function (email: string, password: string) {
+userSchema.statics.login = async function (email: String, password: String) {
   if (!email || !password) {
     throw Error("All fields must be filled");
   }

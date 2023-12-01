@@ -18,7 +18,6 @@ interface Checkout {
 
 export async function POST(request: Request) {
   const req: Checkout = await request.json();
-  //   console.log(req);
   try {
     await connectToMongo();
     if (req.items) {
@@ -28,7 +27,6 @@ export async function POST(request: Request) {
         line_items: await Promise.all(
           req.items.map(async (item: any) => {
             const storeItem = await Item.findById(item.id);
-            // console.log(storeItem)
             return {
               price_data: {
                 currency: "usd",

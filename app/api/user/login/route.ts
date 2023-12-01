@@ -1,25 +1,26 @@
 import { NextResponse } from "next/server";
 import { createToken } from "../../methods/createToken";
 import { connectToMongo } from "../../middleware/connectToMongo";
-
 const User = require("../../../../models/usersModel");
 
-interface Register {
+interface Login {
   email: string;
   password: string;
-  admin: boolean;
 }
 
-// create a new user
 export async function POST(request: Request) {
-  const req: Register = await request.json();
-  const { email, password, admin } = req;
+  const req: Login = await request.json();
+  const { email, password } = req;
+
   try {
-    connectToMongo;
-    const user = await User.register(email, password, admin);
+    connectToMongo();
+    const user = await User.login(email, password);
 
     //create a token
     const token = createToken(user._id);
+
+    //check if admin
+    const admin = user.admin;
 
     return NextResponse.json({ email, token, admin });
   } catch (error: any) {
