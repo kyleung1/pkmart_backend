@@ -54,7 +54,7 @@ export async function DELETE(request: Request) {
   const apiKey = headersList.get("apiKey");
   try {
     if (keyAuth(apiKey) === false) {
-      return NextResponse.json({
+      return Response.json({
         error: "api key is missing or incorrect",
         status: 404,
       });
@@ -64,34 +64,27 @@ export async function DELETE(request: Request) {
       const splitUrl = url.split("/");
       const id = splitUrl[splitUrl.length - 1];
       if (!mongoose.Types.ObjectId.isValid(id)) {
-        return NextResponse.json(
-          { error: "No such item" },
-          {
-            status: 404,
-          }
-        );
+        return new Response(JSON.stringify({ error: "No such item" }), {
+          status: 404,
+        });
       }
 
       const item = await Item.findOneAndDelete({ _id: id });
 
       if (!item) {
-        return NextResponse.json(
-          { error: "No such item" },
-          {
-            status: 404,
-          }
-        );
+        return new Response(JSON.stringify({ error: "No such item" }), {
+          status: 404,
+        });
       }
-      return NextResponse.json(item);
+      return new Response(
+        JSON.stringify({ message: item.name + " has been deleted." })
+      );
     }
   } catch (error: unknown) {
     if (error instanceof Error)
-      return (
-        NextResponse.json({ error: error.message }),
-        {
-          status: 500,
-        }
-      );
+      return new Response(JSON.stringify({ error: error.message }), {
+        status: 500,
+      });
   }
 }
 
