@@ -25,7 +25,7 @@ export async function POST(request: Request) {
         payment_method_types: ["card"],
         mode: "payment",
         line_items: await Promise.all(
-          req.items.map(async (item: any) => {
+          req.items.map(async (item: Amount) => {
             const storeItem = await Item.findById(item.id);
             return {
               price_data: {
@@ -44,15 +44,16 @@ export async function POST(request: Request) {
       });
       return NextResponse.json({ url: session.url });
     }
-  } catch (e: any) {
-    return NextResponse.json(
-      {
-        error: e.message,
-      },
-      {
-        status: 500,
-      }
-    );
+  } catch (e: unknown) {
+    if (e instanceof Error)
+      return NextResponse.json(
+        {
+          error: e.message,
+        },
+        {
+          status: 500,
+        }
+      );
   }
   storeItems = [];
 }

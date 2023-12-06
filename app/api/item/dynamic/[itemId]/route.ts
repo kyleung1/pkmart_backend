@@ -1,19 +1,16 @@
 import { NextResponse } from "next/server";
-import { useRouter } from "next/router";
-import { connectToMongo } from "@/app/api/middleware/connectToMongo";
+import { connectToMongo } from "../../../middleware/connectToMongo";
 const mongoose = require("mongoose");
-const User = require("../../../../../models/usersModel");
+const Item = require("../../../../../models/itemsModel");
 
 interface Item {
-  _id?: string;
-  name?: string;
-  price?: number;
-  stock?: number;
-  __v?: number;
-  desc?: string;
+  name: string;
+  price: number;
+  stock: number;
+  desc: string;
 }
 
-// get a single user
+// get a single item
 export async function GET(request: Request) {
   try {
     connectToMongo();
@@ -22,24 +19,22 @@ export async function GET(request: Request) {
     const id = splitUrl[splitUrl.length - 1];
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return NextResponse.json(
-        { error: "No such user" },
+        { error: "No such item" },
         {
           status: 404,
         }
       );
     }
-
-    const user = await User.findById(id);
-
-    if (!user) {
+    const item = await Item.findById(id);
+    if (!item) {
       return NextResponse.json(
-        { error: "No such user" },
+        { error: "No such item" },
         {
           status: 404,
         }
       );
     }
-    return NextResponse.json(user);
+    return NextResponse.json(item);
   } catch (error: unknown) {
     if (error instanceof Error)
       return NextResponse.json(
@@ -51,7 +46,7 @@ export async function GET(request: Request) {
   }
 }
 
-//delete a user
+// delete an item
 export async function DELETE(request: Request) {
   try {
     connectToMongo();
@@ -60,28 +55,28 @@ export async function DELETE(request: Request) {
     const id = splitUrl[splitUrl.length - 1];
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return NextResponse.json(
-        { error: "No such user" },
+        { error: "No such item" },
         {
           status: 404,
         }
       );
     }
 
-    const user = await User.findOneAndDelete({ _id: id });
+    const item = await Item.findOneAndDelete({ _id: id });
 
-    if (!user) {
+    if (!item) {
       return NextResponse.json(
-        { error: "No such user" },
+        { error: "No such item" },
         {
           status: 404,
         }
       );
     }
-    return NextResponse.json(user);
+    return NextResponse.json(item);
   } catch (error: unknown) {
     if (error instanceof Error)
-      return NextResponse.json(
-        { error: error.message },
+      return (
+        NextResponse.json({ error: error.message }),
         {
           status: 500,
         }
@@ -89,8 +84,7 @@ export async function DELETE(request: Request) {
   }
 }
 
-//update a user
-// needs to add token hashing
+// update an item
 export async function PATCH(request: Request) {
   try {
     connectToMongo();
@@ -100,29 +94,29 @@ export async function PATCH(request: Request) {
     const req: Item = await request.json();
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return NextResponse.json(
-        { error: "No such user" },
+        { error: "No such item" },
         {
           status: 404,
         }
       );
     }
 
-    const user = await User.findOneAndUpdate(
+    const item = await Item.findOneAndUpdate(
       { _id: id },
       {
         ...req,
       }
     );
 
-    if (!user) {
+    if (!item) {
       return NextResponse.json(
-        { error: "No such user" },
+        { error: "No such item" },
         {
           status: 404,
         }
       );
     }
-    return NextResponse.json(user);
+    return NextResponse.json(item);
   } catch (error: unknown) {
     if (error instanceof Error)
       return NextResponse.json(
