@@ -17,31 +17,40 @@ interface Item {
 
 // get a single user
 export async function GET(request: Request) {
+  const headersList = headers();
+  const apiKey = headersList.get("apiKey");
   try {
-    connectToMongo();
-    const url = request.url;
-    const splitUrl = url.split("/");
-    const id = splitUrl[splitUrl.length - 1];
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return NextResponse.json(
-        { error: "No such user" },
-        {
-          status: 404,
-        }
-      );
-    }
+    if (keyAuth(apiKey) === false) {
+      return NextResponse.json({
+        error: "api key is missing or incorrect",
+        status: 404,
+      });
+    } else {
+      connectToMongo();
+      const url = request.url;
+      const splitUrl = url.split("/");
+      const id = splitUrl[splitUrl.length - 1];
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return NextResponse.json(
+          { error: "No such user" },
+          {
+            status: 404,
+          }
+        );
+      }
 
-    const user = await User.findById(id);
+      const user = await User.findById(id);
 
-    if (!user) {
-      return NextResponse.json(
-        { error: "No such user" },
-        {
-          status: 404,
-        }
-      );
+      if (!user) {
+        return NextResponse.json(
+          { error: "No such user" },
+          {
+            status: 404,
+          }
+        );
+      }
+      return NextResponse.json(user);
     }
-    return NextResponse.json(user);
   } catch (error: unknown) {
     if (error instanceof Error)
       return NextResponse.json(
