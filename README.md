@@ -1,36 +1,30 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+> A nextjs14 backend to feed crud responses to my poke-mart ecommerce site.
 
-## Getting Started
+# Poke-Mart Eccommerce Backend with Next.js 14
 
-First, run the development server:
+Initially I had a backend for this project in Express.js but I realized there were limited free options available to deploy it. So I decided to recreate the backend in a Next.js project, only using it as an api, and it works surprisingly well allowing me to deploy it using Vercel. Now my react frontend can do crud operations to the MongoDB database from an actual url instead of my local machine using localhost. This was made mostly as a demo for the frontend, the actual project would ideally be deployed with an Express.js backend to demonstrate my proficiency in the MERN stack.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## API Documentation
+
+Base URL
+
+> https://pkmart-backend.vercel.app/api/
+
+### /checkout
+
+```
+method: 'POST',
+headers: {
+			'apiKey': 'your-rapidapi-key',
+		},
+body: {
+    [{  id: string;
+        name: string;
+        quantity: number;
+        }]
+}
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### /item
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### /user
