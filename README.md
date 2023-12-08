@@ -10,21 +10,92 @@ Base URL
 
 > https://pkmart-backend.vercel.app/api/
 
+## Endpoints
+
 ### /checkout
 
-```
-method: 'POST',
-headers: {
-			'apiKey': 'your-rapidapi-key',
-		},
-body: {
-    [{  id: string;
-        name: string;
-        quantity: number;
-        }]
-}
-```
+Checking out items from the store.
+
+- **Method:** [POST]
+- **Path:** `/checkout`
+- **Request Header:**
+  ```
+      {
+  		'apiKey': 'your-api-key'
+  	}
+  ```
+- **Request Body:**
+  ```
+      [{
+        id: string,
+        name: string,
+        quantity: number
+      }]
+  ```
+- **Response:**
+  - **Success:** [200]
+  ```json
+  {
+    "url": "stripecheckoutsessionurl"
+  }
+  ```
 
 ### /item
 
+Getting all items in the shop.
+
+- **Method:** [GET]
+- **Path:** `/item`
+- **Response:**
+
+  - **Success:** [200]
+
+  ```json
+  [
+    {
+      "_id": "6310511e59211e6e12ca98c4",
+      "name": "Potion",
+      "price": 1,
+      "stock": 99,
+      "__v": 0,
+      "desc": "A spray-type medicine for treating wounds. It can be used to restore 20 HP to a single Pokémon."
+    }
+  ]
+  ```
+
+Creating a new item.
+
+- **Method:** [POST]
+- **Path:** `/item`
+- **Request Header:**
+  ```
+    {
+  	    "apiKey": "your-api-key"
+  	}
+  ```
+- **Request Body:**
+  ```
+    {
+        name: string,
+        price: number,
+        stock: number,
+        desc: string
+    }
+  ```
+  The session is optional but is needed if you want to fetch previously learned questions.
+- **Response:**
+  - **Success:** [200]
+  ```json
+  {
+    "_id": "6310511e59211e6e12ca98c4",
+    "name": "Potion",
+    "price": 1,
+    "stock": 99,
+    "__v": 0,
+    "desc": "A spray-type medicine for treating wounds. It can be used to restore 20 HP to a single Pokémon."
+  }
+  ```
+
 ### /user
+
+CRUD requests to the mongoDB database for users.
