@@ -143,12 +143,12 @@ Updating an Item in the shop.
 - **Request Body:**
   ```
   {
-    "_id": string | null,
-    "name": string | null,
-    "price": number | null,
-    "stock": number | null,
-    "__v": number | null,
-    "desc": string | null
+    _id: string | null,
+    name: string | null,
+    price: number | null,
+    stock: number | null,
+    __v: number | null,
+    desc: string | null
   }
   ```
 - **Response:**
@@ -253,12 +253,11 @@ Update a user.
 - **Request Body:**
   ```
   {
-    "_id": string | null,
-    "name": string | null,
-    "price": number | null,
-    "stock": number | null,
-    "__v": number | null,
-    "desc": string | null
+  _id: string | null,
+  email: string | null,
+  password: string | null,
+  admin: boolean| null,
+  __v: number| null
   }
   ```
 - **Response:**
@@ -281,8 +280,8 @@ Login a user.
 - **Request Body:**
   ```
   {
-    "email": string,
-    "password": string
+    email: string,
+    password: string
   }
   ```
 - **Response:**
@@ -304,9 +303,9 @@ Create a user.
 - **Request Body:**
   ```
   {
-    "email": string,
-    "password": string,
-    "admin": boolean
+    email: string,
+    password: string,
+    admin: boolean
   }
   ```
 - **Response:**

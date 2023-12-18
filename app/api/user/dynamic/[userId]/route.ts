@@ -6,13 +6,12 @@ import keyAuth from "@/app/api/middleware/keyAuth";
 const mongoose = require("mongoose");
 const User = require("../../../../../models/usersModel");
 
-interface Item {
+interface User {
   _id?: string;
-  name?: string;
-  price?: number;
-  stock?: number;
+  email?: string;
+  password?: string;
+  admin?: boolean;
   __v?: number;
-  desc?: string;
 }
 
 // get a single user
@@ -125,7 +124,7 @@ export async function PATCH(request: Request) {
       const url = request.url;
       const splitUrl = url.split("/");
       const id = splitUrl[splitUrl.length - 1];
-      const req: Item = await request.json();
+      const req: User = await request.json();
       if (!mongoose.Types.ObjectId.isValid(id)) {
         return NextResponse.json(
           { error: "No such user" },
